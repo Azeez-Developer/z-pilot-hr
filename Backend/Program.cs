@@ -21,6 +21,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 // =======================
+// CORS (Frontend Access)
+// =======================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+// =======================
 // JWT Authentication
 // =======================
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -67,7 +82,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// IMPORTANT: Auth order
+// 🔴 CORS MUST COME BEFORE AUTH
+app.UseCors("FrontendPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
