@@ -1,5 +1,20 @@
 import api from "../api/api";
 
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role?: string; // we'll keep this hidden on UI (defaults to Employee)
+}
+
+export async function register(request: RegisterRequest): Promise<void> {
+  await api.post("/auth/register", {
+    ...request,
+    role: request.role ?? "Employee",
+  });
+}
+
 export interface LoginRequest {
   email: string;
   password: string;

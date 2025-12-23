@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { login } from "../auth/authService";
+import { Link } from "react-router-dom";
+import "../styles/auth.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -14,79 +16,56 @@ export default function LoginPage() {
       await login({ email, password });
       window.location.href = "/dashboard";
     } catch {
-      setError("Invalid email or password");
+      setError("Invalid email or password.");
     }
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.title}>z-pilot-hr</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+  <div className="auth-brand">
+    <h1 className="auth-title">Z Pilot HR</h1>
+    <p className="auth-subtitle">Employee & Manager Portal</p>
+  </div>
 
-        {error && <p style={styles.error}>{error}</p>}
+  {error && <div className="auth-error">{error}</div>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={styles.input}
-        />
+  <form className="auth-form" onSubmit={handleSubmit}>
+    <div className="auth-field">
+      <label className="auth-label">Email</label>
+      <input
+        className="auth-input"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+    </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={styles.input}
-        />
+    <div className="auth-field">
+      <label className="auth-label">Password</label>
+      <input
+        className="auth-input"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+    </div>
 
-        <button type="submit" style={styles.button}>
-          Login
-        </button>
-      </form>
+    <button className="auth-button" type="submit">
+      Sign in
+    </button>
+  </form>
+
+  <div className="auth-footer">
+    New here?{" "}
+    <Link className="auth-link" to="/register">
+      Create an account
+    </Link>
+  </div>
+</div>
+
     </div>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "1rem",
-    backgroundColor: "#f5f6fa",
-  },
-  form: {
-    width: "100%",
-    maxWidth: "400px",
-    padding: "2rem",
-    backgroundColor: "#fff",
-    borderRadius: "8px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: "1.5rem",
-  },
-  input: {
-    width: "100%",
-    padding: "0.75rem",
-    marginBottom: "1rem",
-    fontSize: "1rem",
-  },
-  button: {
-    width: "100%",
-    padding: "0.75rem",
-    fontSize: "1rem",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    marginBottom: "1rem",
-    textAlign: "center",
-  },
-};
