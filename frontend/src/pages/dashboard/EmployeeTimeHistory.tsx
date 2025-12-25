@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getMyTimeHistory } from "../../api/timeApi";
-import type { MyHistoryResponse } from "../../api/timeApi";
+import { getMyTimeHistory } from "../../api/employeeTimeApi";
+import type { MyHistoryResponse } from "../../api/employeeTimeApi";
 import "../../styles/auth.css";
 
 /* ======================
