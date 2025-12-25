@@ -57,7 +57,7 @@ namespace Backend.Controllers
         }
 
         // ============================
-        // CLOCK OUT  ✅ ADD THIS
+        // CLOCK OUT  
         // ============================
         [HttpPost("clock-out")]
         public async Task<IActionResult> ClockOut()
@@ -86,5 +86,55 @@ namespace Backend.Controllers
                 clockOut = entry.ClockOutAt
             });
         }
+
+    // ============================
+// EMPLOYEE TIME HISTORY
+// ============================
+[HttpGet("my-history")]
+public async Task<IActionResult> GetMyTimeHistory()
+{
+    var userId = Guid.Parse(
+        User.FindFirstValue(ClaimTypes.NameIdentifier)!
+    );
+
+    var today = DateTime.UtcNow.Date;
+    var startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+
+    var entries = await _context.TimeEntries
+        .Where(t => t.UserId == userId)
+        .OrderByDescending(t => t.ClockInAt)
+        .Take(7)
+        .Select(t => new
+        {
+            date = t.ClockInAt.Date,
+            clockIn = t.ClockInAt,
+            clockOut = t.ClockOutAt,
+            hours =
+                t.ClockOutAt != null
+                    ? Math.Round(
+                        (t.ClockOutAt.Value - t.ClockInAt).TotalHours, 2)
+                    : (double?)null
+        })
+        .ToListAsync();
+
+    var weeklyHours = await _context.TimeEntries
+        .Where(t =>
+            t.UserId == userId &&
+            t.ClockOutAt != null &&
+            t.ClockInAt.Date >= startOfWeek
+        )
+        .SumAsync(t =>
+            (t.ClockOutAt!.Value - t.ClockInAt).TotalHours
+        );
+
+    return Ok(new
+    {
+        today,
+        weeklyHours = Math.Round(weeklyHours, 2),
+        recent = entries
+    });
+}
+
+
     }
 }

@@ -5,6 +5,8 @@ import EmployeeDashboard from "./pages/dashboard/EmployeeDashboard";
 import ManagerDashboard from "./pages/dashboard/ManagerDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import EmployeeTimeHistory from "./pages/dashboard/EmployeeTimeHistory";
+
 
 export default function App() {
   return (
@@ -23,6 +25,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/dashboard/employee/time"
+          element={
+            <ProtectedRoute allowedRoles={["Employee"]}>
+               <EmployeeTimeHistory />
+            </ProtectedRoute>
+         }
+       />
 
         {/* Manager dashboard */}
         <Route
