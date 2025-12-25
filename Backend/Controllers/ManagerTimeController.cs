@@ -23,6 +23,13 @@ namespace Backend.Controllers
         {
             var today = DateTime.UtcNow.Date;
 
+            // Start of week (Monday)
+            var startOfWeek = today.AddDays(-(int)today.DayOfWeek + 1);
+            if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startOfWeek = today.AddDays(-6);
+            }
+
             var users = await _context.Users
                 .Where(u => u.IsActive && u.Role == "Employee")
                 .ToListAsync();
@@ -31,12 +38,12 @@ namespace Backend.Controllers
 
             foreach (var user in users)
             {
-                var todayEntries = await _context.TimeEntries
-                    .Where(t => t.UserId == user.Id && t.ClockInAt.Date == today)
+                var timeEntries = await _context.TimeEntries
+                    .Where(t => t.UserId == user.Id && t.ClockInAt >= startOfWeek)
                     .OrderByDescending(t => t.ClockInAt)
                     .ToListAsync();
 
-                if (!todayEntries.Any())
+                if (!timeEntries.Any())
                 {
                     response.Employees.Add(new ManagerTimeOverviewDto
                     {
@@ -44,28 +51,40 @@ namespace Backend.Controllers
                         FullName = $"{user.FirstName} {user.LastName}",
                         Status = "Clocked Out",
                         TodayHours = 0,
-                        LastClockIn = null
+                        WeeklyHours = 0,
+                        LastClockIn = null,
+                        LastClockOut = null
                     });
                     continue;
                 }
 
-                var latest = todayEntries.First();
+                double todayHours = 0;
+                double weeklyHours = 0;
 
-                double hours = 0;
-
-                foreach (var entry in todayEntries)
+                foreach (var entry in timeEntries)
                 {
                     var end = entry.ClockOutAt ?? DateTime.UtcNow;
-                    hours += (end - entry.ClockInAt).TotalHours;
+                    var hours = (end - entry.ClockInAt).TotalHours;
+
+                    weeklyHours += hours;
+
+                    if (entry.ClockInAt.Date == today)
+                    {
+                        todayHours += hours;
+                    }
                 }
+
+                var latest = timeEntries.First();
 
                 response.Employees.Add(new ManagerTimeOverviewDto
                 {
                     UserId = user.Id,
                     FullName = $"{user.FirstName} {user.LastName}",
                     Status = latest.ClockOutAt == null ? "Clocked In" : "Clocked Out",
-                    TodayHours = Math.Round(hours, 2),
-                    LastClockIn = latest.ClockInAt
+                    TodayHours = Math.Round(todayHours, 2),
+                    WeeklyHours = Math.Round(weeklyHours, 2),
+                    LastClockIn = latest.ClockInAt,
+                    LastClockOut = latest.ClockOutAt
                 });
             }
 

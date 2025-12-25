@@ -10,9 +10,12 @@ import "../../styles/auth.css";
    Helpers
 ====================== */
 
-function formatTime(value?: string | null) {
+function formatDateTime(value?: string | null) {
   if (!value) return "—";
-  return new Date(value).toLocaleTimeString([], {
+  return new Date(value).toLocaleString([], {
+    weekday: "short",
+    month: "short",
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -34,9 +37,7 @@ export default function ManagerDashboard() {
   useEffect(() => {
     getManagerTimeOverview()
       .then(setData)
-      .catch(() =>
-        setError("Failed to load team time overview.")
-      );
+      .catch(() => setError("Failed to load team time overview."));
   }, []);
 
   if (error) {
@@ -65,9 +66,7 @@ export default function ManagerDashboard() {
         {/* Header */}
         <div className="auth-brand">
           <h1 className="auth-title">Team Time Overview</h1>
-          <p className="auth-subtitle">
-            Who’s working right now
-          </p>
+          <p className="auth-subtitle">Who’s working right now</p>
         </div>
 
         {/* Employees */}
@@ -76,36 +75,43 @@ export default function ManagerDashboard() {
             <p>No employees found.</p>
           )}
 
-          {data.employees.map(
-            (employee: ManagerEmployeeOverview) => (
-              <div
-                key={employee.userId}
-                style={{
-                  padding: "14px",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "10px",
-                  marginBottom: "12px",
-                }}
-              >
-                <strong>{employee.fullName}</strong>
+          {data.employees.map((employee: ManagerEmployeeOverview) => (
+            <div
+              key={employee.userId}
+              style={{
+                padding: "14px",
+                border: "1px solid #e5e7eb",
+                borderRadius: "10px",
+                marginBottom: "12px",
+              }}
+            >
+              <strong>{employee.fullName}</strong>
 
-                <p>
-                  <strong>Status:</strong>{" "}
-                  {employee.status}
-                </p>
+              <p>
+                <strong>Status:</strong> {employee.status}
+              </p>
 
-                <p>
-                  <strong>Today:</strong>{" "}
-                  {formatHours(employee.todayHours)} hours
-                </p>
+              <p>
+                <strong>Today:</strong>{" "}
+                {formatHours(employee.todayHours)} hours
+              </p>
 
-                <p>
-                  <strong>Last Clock-In:</strong>{" "}
-                  {formatTime(employee.lastClockIn)}
-                </p>
-              </div>
-            )
-          )}
+              <p>
+                <strong>This Week:</strong>{" "}
+                {formatHours(employee.weeklyHours)} hours
+              </p>
+
+              <p>
+                <strong>Last In:</strong>{" "}
+                {formatDateTime(employee.lastClockIn)}
+              </p>
+
+              <p>
+                <strong>Last Out:</strong>{" "}
+                {formatDateTime(employee.lastClockOut)}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

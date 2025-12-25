@@ -1,15 +1,17 @@
 import axios from "axios";
 
 /* ======================
-   Types
+   Types (MATCH BACKEND)
 ====================== */
 
 export interface ManagerEmployeeOverview {
   userId: string;
   fullName: string;
-  status: string;
+  status: "Clocked In" | "Clocked Out";
   todayHours: number;
-  lastClockIn?: string | null;
+  weeklyHours: number;
+  lastClockIn: string | null;
+  lastClockOut: string | null;
 }
 
 export interface ManagerTimeOverviewResponse {
