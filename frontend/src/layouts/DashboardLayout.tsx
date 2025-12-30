@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import "../styles/auth.css";
+import "../styles/dashboardLayout.css";
 
 interface DashboardLayoutProps {
   title: string;
@@ -13,17 +13,15 @@ export default function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-brand">
-          <h1 className="auth-title">Z Pilot HR</h1>
-          <p className="auth-subtitle">
-            {title} · {roleLabel}
-          </p>
-        </div>
+    <div className="dashboard-layout">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">{title}</h1>
+        <p className="dashboard-subtitle">{roleLabel}</p>
+      </header>
 
+      <main className="dashboard-container">
         {children}
-      </div>
+      </main>
     </div>
   );
 }

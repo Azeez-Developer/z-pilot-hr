@@ -1,0 +1,267 @@
+/* src/pages/dashboard/ManagerDashboard.css */
+
+/* ================================
+   Page spacing (inside DashboardLayout container)
+================================ */
+.manager-dashboard {
+  display: grid;
+  gap: 18px;
+}
+
+/* ================================
+   Stats cards (mobile-first)
+   Layout:
+   Label (top)
+   Divider
+   Number
+   Label (bottom)
+================================ */
+.manager-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.manager-stat-card {
+  background: #ffffff;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+  padding: 16px 14px 18px;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
+  text-align: center;
+}
+
+/* Top label */
+.manager-stat-label-top {
+  font-size: 15px;
+  font-weight: 650;
+  color: #111827;
+}
+
+/* Divider */
+.manager-stat-divider {
+  width: 100%;
+  height: 1px;
+  background: #eef0f5;
+  margin: 10px 0 14px;
+}
+
+/* Number */
+.manager-stat-number {
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.manager-stat-number.blue { color: #2563eb; }
+.manager-stat-number.green { color: #16a34a; }
+.manager-stat-number.red { color: #dc2626; }
+.manager-stat-number.yellow { color: #ca8a04; }
+
+/* Bottom label */
+.manager-stat-label-bottom {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* ================================
+   Search (full width, text only)
+================================ */
+.manager-search {
+  background: #ffffff;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.05);
+  padding: 10px 12px;
+}
+
+.manager-search-inner {
+  display: flex;
+}
+
+.manager-search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #111827;
+  background: transparent;
+}
+
+.manager-search-input::placeholder {
+  color: #6b7280;
+}
+
+/* ================================
+   Employee cards grid
+================================ */
+.manager-employee-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.manager-employee-card {
+  background: #ffffff;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+}
+
+/* Avatar */
+.manager-employee-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  display: grid;
+  place-items: center;
+  font-weight: 650;
+  color: #374151;
+  user-select: none;
+}
+
+/* Header row */
+.manager-employee-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.manager-employee-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  color: #111827;
+  line-height: 1.15;
+}
+
+/* Status pill */
+.manager-status-pill {
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 650;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.manager-status-pill.in {
+  background: #dcfce7;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+
+.manager-status-pill.out {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.manager-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.9;
+}
+
+/* Hours */
+.manager-employee-lines {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.manager-employee-lines strong {
+  font-weight: 650;
+}
+
+/* Divider */
+.manager-employee-divider {
+  height: 1px;
+  background: #eef0f5;
+  margin: 12px 0 10px;
+}
+
+/* Meta */
+.manager-employee-meta {
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.manager-employee-meta strong {
+  font-weight: 650;
+}
+
+/* ================================
+   Responsive
+================================ */
+@media (min-width: 520px) {
+  .manager-dashboard {
+    gap: 20px;
+  }
+
+  .manager-stat-number {
+    font-size: 46px;
+  }
+}
+
+@media (min-width: 768px) {
+  .manager-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .manager-employee-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .manager-employee-name {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .manager-dashboard {
+    gap: 22px;
+  }
+
+  .manager-stat-number {
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 360px) {
+  .manager-stat-number {
+    font-size: 36px;
+  }
+
+  .manager-employee-card {
+    grid-template-columns: 1fr;
+  }
+
+  .manager-employee-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .manager-employee-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
