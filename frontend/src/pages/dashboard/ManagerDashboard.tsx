@@ -7,6 +7,7 @@ import "../../styles/ManagerDashboard.css";
 export default function ManagerDashboard() {
   const [data, setData] = useState<ManagerTimeOverviewResponse | null>(null);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getManagerTimeOverview()
@@ -40,6 +41,10 @@ export default function ManagerDashboard() {
     (e) => e.status === "Clocked Out"
   ).length;
 
+  const filteredEmployees = data.employees.filter((emp) =>
+    emp.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <DashboardLayout
       title="Manager Dashboard"
@@ -61,13 +66,21 @@ export default function ManagerDashboard() {
             <input
               className="manager-search-input"
               placeholder="Search employees..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
         {/* EMPLOYEES */}
         <div className="manager-employee-grid">
-          {data.employees.map((emp) => (
+          {filteredEmployees.length === 0 && (
+            <div className="manager-empty">
+              No employees found.
+            </div>
+          )}
+
+          {filteredEmployees.map((emp) => (
             <div className="manager-employee-card" key={emp.userId}>
               <div className="manager-employee-avatar">
                 {emp.fullName.charAt(0)}
@@ -137,13 +150,9 @@ function StatCard({
   return (
     <div className="manager-stat-card">
       <div className="manager-stat-label-top">{label}</div>
-
       <div className="manager-stat-divider" />
-
       <div className={`manager-stat-number ${color}`}>{value}</div>
-
       <div className="manager-stat-label-bottom">{label}</div>
     </div>
   );
 }
-
