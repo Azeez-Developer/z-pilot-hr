@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { getManagerTimeOverview } from "../../api/managerTimeApi";
 import type { ManagerTimeOverviewResponse } from "../../api/managerTimeApi";
@@ -8,6 +9,7 @@ export default function ManagerDashboard() {
   const [data, setData] = useState<ManagerTimeOverviewResponse | null>(null);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getManagerTimeOverview()
@@ -52,15 +54,38 @@ export default function ManagerDashboard() {
     >
       <div className="manager-dashboard">
 
-        {/* STATS */}
+        {/* =======================
+            STATS
+        ======================= */}
         <div className="manager-stats">
           <StatCard label="Employees" value={totalEmployees} color="blue" />
           <StatCard label="Clocked In" value={clockedIn} color="green" />
           <StatCard label="Clocked Out" value={clockedOut} color="red" />
-          <StatCard label="Issue Alert" value={0} color="yellow" />
+          <StatCard label="Issues" value={0} color="yellow" />
         </div>
 
-        {/* SEARCH */}
+        {/* =======================
+            MANAGE SCHEDULES (NEW)
+        ======================= */}
+        <div className="manager-schedule-card">
+          <div className="manager-schedule-left">
+            <h3 className="manager-schedule-title">Manage Schedules</h3>
+            <p className="manager-schedule-subtitle">
+              Create, edit, and manage employee shifts.
+            </p>
+          </div>
+
+          <button
+            className="manager-schedule-button"
+            onClick={() => navigate("/dashboard/manager/scheduling")}
+          >
+            Open Scheduler
+          </button>
+        </div>
+
+        {/* =======================
+            SEARCH
+        ======================= */}
         <div className="manager-search">
           <div className="manager-search-inner">
             <input
@@ -72,12 +97,12 @@ export default function ManagerDashboard() {
           </div>
         </div>
 
-        {/* EMPLOYEES */}
+        {/* =======================
+            EMPLOYEES
+        ======================= */}
         <div className="manager-employee-grid">
           {filteredEmployees.length === 0 && (
-            <div className="manager-empty">
-              No employees found.
-            </div>
+            <div className="manager-empty">No employees found.</div>
           )}
 
           {filteredEmployees.map((emp) => (
@@ -137,7 +162,7 @@ export default function ManagerDashboard() {
   );
 }
 
-/* Reusable stat card (NO ICONS) */
+/* Reusable stat card */
 function StatCard({
   label,
   value,

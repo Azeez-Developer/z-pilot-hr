@@ -6,7 +6,7 @@ import ManagerDashboard from "./pages/dashboard/ManagerDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import EmployeeTimeHistory from "./pages/dashboard/EmployeeTimeHistory";
-
+import ManagerScheduling from "./pages/dashboard/ManagerScheduling";
 
 export default function App() {
   return (
@@ -44,6 +44,12 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+         path="/dashboard/manager/scheduling"
+         element={<ManagerScheduling />}
+        />
+
 
         {/* Admin dashboard */}
         <Route

@@ -1,7 +1,7 @@
 /* src/pages/dashboard/ManagerDashboard.css */
 
 /* ================================
-   Page spacing (inside DashboardLayout container)
+   Page spacing
 ================================ */
 .manager-dashboard {
   display: grid;
@@ -9,12 +9,7 @@
 }
 
 /* ================================
-   Stats cards (mobile-first)
-   Layout:
-   Label (top)
-   Divider
-   Number
-   Label (bottom)
+   Stats cards
 ================================ */
 .manager-stats {
   display: grid;
@@ -31,14 +26,13 @@
   text-align: center;
 }
 
-/* Top label */
+/* Titles */
 .manager-stat-label-top {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 650;
   color: #111827;
 }
 
-/* Divider */
 .manager-stat-divider {
   width: 100%;
   height: 1px;
@@ -46,7 +40,7 @@
   margin: 10px 0 14px;
 }
 
-/* Number */
+/* Numbers */
 .manager-stat-number {
   font-size: 42px;
   line-height: 1;
@@ -59,15 +53,72 @@
 .manager-stat-number.red { color: #dc2626; }
 .manager-stat-number.yellow { color: #ca8a04; }
 
-/* Bottom label */
+/* ✅ Subtext = employee subtext */
 .manager-stat-label-bottom {
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 15px;
   color: #374151;
 }
 
 /* ================================
-   Search (full width, text only)
+   Manage Schedules
+================================ */
+.manager-schedule-card {
+  background: #ffffff;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.manager-schedule-left {
+  display: grid;
+  gap: 2px;
+}
+
+/* Title */
+.manager-schedule-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  color: #111827;
+}
+
+/* ✅ Subtext = employee subtext */
+.manager-schedule-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* ✅ Button MATCHES title */
+.manager-schedule-button {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+
+  font-size: 20px;        /* same size as Manage Schedules */
+  font-weight: 400;       /* NOT bold */
+  font-family: inherit;
+
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.manager-schedule-button:hover {
+  background: #1d4ed8;
+}
+
+
+/* ================================
+   Search
 ================================ */
 .manager-search {
   background: #ffffff;
@@ -77,25 +128,23 @@
   padding: 10px 12px;
 }
 
-.manager-search-inner {
-  display: flex;
-}
-
 .manager-search-input {
   width: 100%;
   border: none;
   outline: none;
-  font-size: 16px;
-  color: #111827;
   background: transparent;
+
+  font-size: 15px;        /* MATCH subtext */
+  color: #111827;
 }
 
 .manager-search-input::placeholder {
+  font-size: 15px;
   color: #6b7280;
 }
 
 /* ================================
-   Employee cards grid
+   Employee cards
 ================================ */
 .manager-employee-grid {
   display: grid;
@@ -114,7 +163,6 @@
   gap: 12px;
 }
 
-/* Avatar */
 .manager-employee-avatar {
   width: 56px;
   height: 56px;
@@ -124,10 +172,8 @@
   place-items: center;
   font-weight: 650;
   color: #374151;
-  user-select: none;
 }
 
-/* Header row */
 .manager-employee-top {
   display: flex;
   align-items: flex-start;
@@ -140,7 +186,6 @@
   font-size: 20px;
   font-weight: 650;
   color: #111827;
-  line-height: 1.15;
 }
 
 /* Status pill */
@@ -149,8 +194,6 @@
   padding: 7px 12px;
   font-size: 13px;
   font-weight: 650;
-  border: 1px solid transparent;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -158,77 +201,31 @@
 
 .manager-status-pill.in {
   background: #dcfce7;
-  border-color: #bbf7d0;
   color: #15803d;
 }
 
 .manager-status-pill.out {
   background: #fee2e2;
-  border-color: #fecaca;
   color: #b91c1c;
 }
 
-.manager-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0.9;
-}
-
-/* Hours */
-.manager-employee-lines {
-  margin-top: 8px;
-  display: grid;
-  gap: 6px;
-  font-size: 15px;
-  color: #111827;
-}
-
-.manager-employee-lines strong {
-  font-weight: 650;
-}
-
-/* Divider */
-.manager-employee-divider {
-  height: 1px;
-  background: #eef0f5;
-  margin: 12px 0 10px;
-}
-
-/* Meta */
+/* ✅ Source of truth for subtext */
+.manager-employee-lines,
 .manager-employee-meta {
-  display: grid;
-  gap: 6px;
   font-size: 15px;
   color: #111827;
-}
-
-.manager-employee-meta strong {
-  font-weight: 650;
 }
 
 /* ================================
    Responsive
 ================================ */
-@media (min-width: 520px) {
-  .manager-dashboard {
-    gap: 20px;
-  }
-
-  .manager-stat-number {
-    font-size: 46px;
-  }
-}
-
 @media (min-width: 768px) {
   .manager-stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .manager-employee-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .manager-employee-name {
@@ -236,32 +233,14 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .manager-dashboard {
-    gap: 22px;
-  }
-
-  .manager-stat-number {
-    font-size: 52px;
-  }
-}
-
-@media (max-width: 360px) {
-  .manager-stat-number {
-    font-size: 36px;
-  }
-
-  .manager-employee-card {
-    grid-template-columns: 1fr;
-  }
-
-  .manager-employee-avatar {
-    width: 48px;
-    height: 48px;
-  }
-
-  .manager-employee-top {
+@media (max-width: 520px) {
+  .manager-schedule-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .manager-schedule-button {
+    width: 100%;
+    text-align: center;
   }
 }
