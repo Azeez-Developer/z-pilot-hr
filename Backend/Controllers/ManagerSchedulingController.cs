@@ -125,5 +125,56 @@ namespace Backend.Controllers
                 shiftId = shift.Id
             });
         }
+
+        // ================================
+        // PUT: Update shift
+        // ================================
+        [HttpPut("shift/{shiftId}")]
+        public async Task<IActionResult> UpdateShift(
+            Guid shiftId,
+            [FromBody] UpdateShiftRequestDto request
+        )
+        {
+            var managerId = Guid.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            );
+
+            if (request.EndTime <= request.StartTime)
+            {
+                return BadRequest("End time must be after start time.");
+            }
+
+            var shift = await _context.Shifts
+                .Include(s => s.Employee)
+                .Where(s =>
+                    s.Id == shiftId &&
+                    s.ManagerId == managerId
+                )
+                .FirstOrDefaultAsync();
+
+            if (shift == null)
+            {
+                return NotFound("Shift not found or access denied.");
+            }
+
+            // Extra safety check
+            if (shift.Employee == null || shift.Employee.ManagerId != managerId)
+            {
+                return Forbid();
+            }
+
+            shift.ShiftDate = request.ShiftDate;
+            shift.StartTime = request.StartTime;
+            shift.EndTime = request.EndTime;
+            shift.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message = "Shift updated successfully.",
+                shiftId = shift.Id
+            });
+        }
     }
 }
