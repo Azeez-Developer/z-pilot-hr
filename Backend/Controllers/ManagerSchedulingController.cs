@@ -91,7 +91,6 @@ namespace Backend.Controllers
                 return BadRequest("End time must be after start time.");
             }
 
-            // Ensure employee belongs to manager
             var employee = await _context.Users
                 .Where(u =>
                     u.Id == request.EmployeeId &&
@@ -120,10 +119,7 @@ namespace Backend.Controllers
             _context.Shifts.Add(shift);
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                shiftId = shift.Id
-            });
+            return Ok(new { shiftId = shift.Id });
         }
 
         // ================================
@@ -157,7 +153,6 @@ namespace Backend.Controllers
                 return NotFound("Shift not found or access denied.");
             }
 
-            // Extra safety check
             if (shift.Employee == null || shift.Employee.ManagerId != managerId)
             {
                 return Forbid();
@@ -174,6 +169,44 @@ namespace Backend.Controllers
             {
                 message = "Shift updated successfully.",
                 shiftId = shift.Id
+            });
+        }
+
+        // ================================
+        // DELETE: Delete shift
+        // ================================
+        [HttpDelete("shift/{shiftId}")]
+        public async Task<IActionResult> DeleteShift(Guid shiftId)
+        {
+            var managerId = Guid.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            );
+
+            var shift = await _context.Shifts
+                .Include(s => s.Employee)
+                .Where(s =>
+                    s.Id == shiftId &&
+                    s.ManagerId == managerId
+                )
+                .FirstOrDefaultAsync();
+
+            if (shift == null)
+            {
+                return NotFound("Shift not found or access denied.");
+            }
+
+            if (shift.Employee == null || shift.Employee.ManagerId != managerId)
+            {
+                return Forbid();
+            }
+
+            _context.Shifts.Remove(shift);
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message = "Shift deleted successfully.",
+                shiftId = shiftId
             });
         }
     }
