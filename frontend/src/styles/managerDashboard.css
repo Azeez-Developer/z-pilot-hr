@@ -1,5 +1,3 @@
-/* src/pages/dashboard/ManagerDashboard.css */
-
 /* ================================
    Page spacing
 ================================ */
@@ -26,7 +24,6 @@
   text-align: center;
 }
 
-/* Titles */
 .manager-stat-label-top {
   font-size: 20px;
   font-weight: 650;
@@ -40,12 +37,10 @@
   margin: 10px 0 14px;
 }
 
-/* Numbers */
 .manager-stat-number {
   font-size: 42px;
   line-height: 1;
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 .manager-stat-number.blue { color: #2563eb; }
@@ -53,7 +48,6 @@
 .manager-stat-number.red { color: #dc2626; }
 .manager-stat-number.yellow { color: #ca8a04; }
 
-/* ✅ Subtext = employee subtext */
 .manager-stat-label-bottom {
   margin-top: 8px;
   font-size: 15px;
@@ -80,7 +74,6 @@
   gap: 2px;
 }
 
-/* Title */
 .manager-schedule-title {
   margin: 0;
   font-size: 20px;
@@ -88,14 +81,12 @@
   color: #111827;
 }
 
-/* ✅ Subtext = employee subtext */
 .manager-schedule-subtitle {
   margin: 0;
   font-size: 15px;
   color: #6b7280;
 }
 
-/* ✅ Button MATCHES title */
 .manager-schedule-button {
   height: 36px;
   padding: 0 16px;
@@ -103,11 +94,8 @@
   border: none;
   background: #2563eb;
   color: #ffffff;
-
-  font-size: 20px;        /* same size as Manage Schedules */
-  font-weight: 400;       /* NOT bold */
-  font-family: inherit;
-
+  font-size: 20px;
+  font-weight: 400;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -115,7 +103,6 @@
 .manager-schedule-button:hover {
   background: #1d4ed8;
 }
-
 
 /* ================================
    Search
@@ -133,8 +120,7 @@
   border: none;
   outline: none;
   background: transparent;
-
-  font-size: 15px;        /* MATCH subtext */
+  font-size: 15px;
   color: #111827;
 }
 
@@ -159,19 +145,8 @@
   box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
   padding: 14px;
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: 1fr;
   gap: 12px;
-}
-
-.manager-employee-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  display: grid;
-  place-items: center;
-  font-weight: 650;
-  color: #374151;
 }
 
 .manager-employee-top {
@@ -188,15 +163,11 @@
   color: #111827;
 }
 
-/* Status pill */
 .manager-status-pill {
   border-radius: 999px;
   padding: 7px 12px;
   font-size: 13px;
   font-weight: 650;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .manager-status-pill.in {
@@ -209,7 +180,6 @@
   color: #b91c1c;
 }
 
-/* ✅ Source of truth for subtext */
 .manager-employee-lines,
 .manager-employee-meta {
   font-size: 15px;

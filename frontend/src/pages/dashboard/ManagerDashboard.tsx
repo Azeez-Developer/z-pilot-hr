@@ -65,7 +65,7 @@ export default function ManagerDashboard() {
         </div>
 
         {/* =======================
-            MANAGE SCHEDULES (NEW)
+            MANAGE SCHEDULES
         ======================= */}
         <div className="manager-schedule-card">
           <div className="manager-schedule-left">
@@ -87,14 +87,12 @@ export default function ManagerDashboard() {
             SEARCH
         ======================= */}
         <div className="manager-search">
-          <div className="manager-search-inner">
-            <input
-              className="manager-search-input"
-              placeholder="Search employees..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <input
+            className="manager-search-input"
+            placeholder="Search employees..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
         {/* =======================
@@ -107,10 +105,6 @@ export default function ManagerDashboard() {
 
           {filteredEmployees.map((emp) => (
             <div className="manager-employee-card" key={emp.userId}>
-              <div className="manager-employee-avatar">
-                {emp.fullName.charAt(0)}
-              </div>
-
               <div>
                 <div className="manager-employee-top">
                   <h3 className="manager-employee-name">{emp.fullName}</h3>
@@ -120,7 +114,6 @@ export default function ManagerDashboard() {
                       emp.status === "Clocked In" ? "in" : "out"
                     }`}
                   >
-                    <span className="manager-status-dot" />
                     {emp.status}
                   </span>
                 </div>
@@ -162,7 +155,9 @@ export default function ManagerDashboard() {
   );
 }
 
-/* Reusable stat card */
+/* =======================
+   Reusable Stat Card
+======================= */
 function StatCard({
   label,
   value,
