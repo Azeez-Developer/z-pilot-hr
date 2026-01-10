@@ -1,0 +1,35 @@
+.settings-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.settings-value {
+  font-size: 16px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.settings-note {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}

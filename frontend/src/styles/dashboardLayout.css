@@ -52,14 +52,12 @@
 .dashboard-avatar {
   width: 56px;
   height: 56px;
-  border-radius: 999px;
-
-  background: #e5e7eb;
-  border: 1px solid #d1d5db;
-  color: #111827;
+  border-radius: 50%;
+  border: none;
 
   font-size: 16px;
   font-weight: 700;
+  color: #ffffff;
 
   display: flex;
   align-items: center;
@@ -69,7 +67,7 @@
 }
 
 .dashboard-avatar:hover {
-  background: #d1d5db;
+  filter: brightness(0.95);
 }
 
 /* ================================
@@ -90,7 +88,7 @@
 }
 
 .dashboard-menu-user {
-  padding: 12px 14px 8px;
+  padding: 14px 16px 10px;
 }
 
 .dashboard-menu-name {
@@ -114,7 +112,7 @@
 .dashboard-menu-item {
   width: 100%;
   text-align: left;
-  padding: 10px 14px;
+  padding: 12px 16px;
 
   background: none;
   border: none;
@@ -169,7 +167,7 @@
 }
 
 /* ================================
-   Mobile
+   Mobile Layout
 ================================ */
 @media (max-width: 520px) {
   .dashboard-header-inner {
@@ -182,4 +180,46 @@
     transform: none;
     align-self: flex-end;
   }
+
+  /* Mobile dropdown polish */
+  .dashboard-menu-dropdown {
+    width: 260px;
+    right: 8px;
+    top: 72px;
+  }
+
+  .dashboard-menu-item {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+
+  .dashboard-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 17px;
+  }
+}
+
+/* ================================
+   Avatar (Role-Based Colors)
+================================ */
+
+/* Manager */
+.avatar-manager {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+}
+
+/* Admin */
+.avatar-admin {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+}
+
+/* Employee */
+.avatar-employee {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+/* Fallback */
+.avatar-default {
+  background: #9ca3af;
 }

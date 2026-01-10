@@ -19,7 +19,7 @@ export default function DashboardLayout({
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Pull user info from JWT
+  // ✅ User from JWT
   const user = getJwtPayload();
   const initials = getUserInitials();
 
@@ -29,14 +29,20 @@ export default function DashboardLayout({
     user?.email ||
     "User";
 
-  const role = user?.role ?? "";
+  const role = user?.role?.toLowerCase() ?? "default";
+
+  const goToDashboard = () => {
+    if (role === "manager") navigate("/dashboard/manager");
+    else if (role === "employee") navigate("/dashboard/employee");
+    else if (role === "admin") navigate("/dashboard/admin");
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
-  // ✅ Close dropdown on outside click OR ESC
+  // ✅ Close dropdown on click away + ESC
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -44,18 +50,16 @@ export default function DashboardLayout({
       }
     };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-      }
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleEsc);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleEsc);
     };
   }, []);
 
@@ -63,7 +67,7 @@ export default function DashboardLayout({
     <div className="dashboard-layout">
       <header className="dashboard-header">
         <div className="dashboard-header-inner">
-          {/* CENTER TITLE */}
+          {/* TITLE (informational only) */}
           <div className="dashboard-header-center">
             <h1 className="dashboard-title">{title}</h1>
             <p className="dashboard-subtitle">{roleLabel}</p>
@@ -72,7 +76,7 @@ export default function DashboardLayout({
           {/* USER MENU */}
           <div className="dashboard-header-right" ref={menuRef}>
             <button
-              className="dashboard-avatar"
+              className={`dashboard-avatar avatar-${role}`}
               onClick={() => setOpen((prev) => !prev)}
               aria-label="User menu"
             >
@@ -81,20 +85,48 @@ export default function DashboardLayout({
 
             {open && (
               <div className="dashboard-menu-dropdown">
+                {/* User info */}
                 <div className="dashboard-menu-user">
                   <div className="dashboard-menu-name">{fullName}</div>
-                  <div className="dashboard-menu-role">{role}</div>
+                  <div className="dashboard-menu-role">{user?.role}</div>
                 </div>
 
-                <button className="dashboard-menu-item" disabled>
+                {/* ✅ My Dashboard (FIRST ITEM) */}
+                <button
+                  className="dashboard-menu-item"
+                  onClick={() => {
+                    setOpen(false);
+                    goToDashboard();
+                  }}
+                >
+                  My Dashboard
+                </button>
+
+                {/* Profile */}
+                <button
+                  className="dashboard-menu-item"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/profile");
+                  }}
+                >
                   Profile
                 </button>
-                <button className="dashboard-menu-item" disabled>
+
+                {/* Settings */}
+                <button
+                  className="dashboard-menu-item"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/settings");
+                  }}
+                >
                   Settings
                 </button>
 
                 <div className="dashboard-menu-divider" />
 
+                {/* Logout */}
                 <button
                   className="dashboard-menu-item logout"
                   onClick={handleLogout}

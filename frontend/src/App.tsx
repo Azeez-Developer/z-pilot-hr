@@ -7,6 +7,9 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import EmployeeTimeHistory from "./pages/dashboard/EmployeeTimeHistory";
 import ManagerScheduling from "./pages/dashboard/ManagerScheduling";
+import ProfilePage from "./pages/profile/ProfilePage";
+import SettingsPage from "./pages/settings/SettingsPage";
+
 
 export default function App() {
   return (
@@ -30,10 +33,10 @@ export default function App() {
           path="/dashboard/employee/time"
           element={
             <ProtectedRoute allowedRoles={["Employee"]}>
-               <EmployeeTimeHistory />
+              <EmployeeTimeHistory />
             </ProtectedRoute>
-         }
-       />
+          }
+        />
 
         {/* Manager dashboard */}
         <Route
@@ -46,10 +49,13 @@ export default function App() {
         />
 
         <Route
-         path="/dashboard/manager/scheduling"
-         element={<ManagerScheduling />}
+          path="/dashboard/manager/scheduling"
+          element={
+            <ProtectedRoute allowedRoles={["Manager"]}>
+              <ManagerScheduling />
+            </ProtectedRoute>
+          }
         />
-
 
         {/* Admin dashboard */}
         <Route
@@ -58,6 +64,26 @@ export default function App() {
             <ProtectedRoute allowedRoles={["Admin"]}>
               <AdminDashboard />
             </ProtectedRoute>
+          }
+        />
+
+        {/* Profile — shared for all roles */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={["Employee", "Manager", "Admin"]}>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings — shared for all roles */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute allowedRoles={["Employee", "Manager", "Admin"]}>
+          <SettingsPage />
+        </ProtectedRoute>
           }
         />
 
