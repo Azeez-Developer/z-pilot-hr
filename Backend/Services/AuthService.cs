@@ -73,8 +73,16 @@ namespace Backend.Services
                 // 🔑 REQUIRED for controllers using NameIdentifier
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
+                // Standard JWT claims
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+
+                // ✅ NAME CLAIMS (FIXES INITIALS + DROPDOWN)
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+
+                // Role
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
